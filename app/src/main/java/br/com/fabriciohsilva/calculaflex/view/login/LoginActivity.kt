@@ -3,15 +3,14 @@ package br.com.fabriciohsilva.calculaflex.view.login
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
 import br.com.fabriciohsilva.calculaflex.R
+import br.com.fabriciohsilva.calculaflex.utils.CalculaFlexTracker
 import br.com.fabriciohsilva.calculaflex.view.base.BaseActivity
 import br.com.fabriciohsilva.calculaflex.view.form.FormActivity
 import br.com.fabriciohsilva.calculaflex.view.signup.SignUpActivity
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login.*

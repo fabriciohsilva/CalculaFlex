@@ -1,6 +1,7 @@
 package br.com.fabriciohsilva.calculaflex.view.form
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -41,8 +42,7 @@ class FormActivity : BaseActivity() {
         etGasAverage.addTextChangedListener(DecimalTextWatcher(etGasAverage, 1))
         etEthanolAverage.addTextChangedListener(DecimalTextWatcher(etEthanolAverage, 1))
 
-        //loadBanner()
-
+        loadRemoteConfigs()
 
         btCalculate.setOnClickListener {
             saveCarData()
@@ -63,16 +63,15 @@ class FormActivity : BaseActivity() {
 
 
     private fun loadRemoteConfigs() {
-        val gasprice: String = RemoteConfig.getFirebaseRemoteConfig().getString("GAS_PRICE")
-        val ethanolprice: String = RemoteConfig.getFirebaseRemoteConfig().getString("ETHANOL_PRICE")
+        val buttonCollor: String = RemoteConfig.getFirebaseRemoteConfig().getString("BTN_COLOR")
+        val loginBanner = RemoteConfig.getFirebaseRemoteConfig().getString("banner_image")
 
-        if (etGasPrice.text == null || etGasPrice.text.toString().toDouble() == 0.00) {
-            etGasPrice.setText(gasprice)
-        }//if (etGasPrice.text == null)
+        if (buttonCollor != null){
+            btCalculate.setBackgroundColor(Color.parseColor(buttonCollor))
+        }
 
-        if (etEthanolPrice.text == null || etEthanolPrice.text.toString().toDouble() == 0.00) {
-            etEthanolPrice.setText(ethanolprice)
-        }//end if (etEthanolPrice.text == null)
+        Picasso.get().load(loginBanner).into(ivBanner)
+
     }//end private fun loadRemoteConfigs
 
 
@@ -120,6 +119,7 @@ class FormActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_clear -> {
+                sendClearDataToAnalytics()
                 clearData()
                 return true
             }//end R.id.action_clear
@@ -157,12 +157,12 @@ class FormActivity : BaseActivity() {
         CalculaFlexTracker.trackEvent(this, bundle)
     }//end private fun sendDataToAnalytics
 
-    private fun loadBanner() {
-        val loginBanner = RemoteConfig.getFirebaseRemoteConfig()
-            .getString("banner_image")
+    private fun sendClearDataToAnalytics() {
+        val bundle = Bundle()
+        bundle.putString("EVENT_NAME", "CLEAR_DATA")
+        bundle.putString("USERID", userId)
 
-        Picasso.get().load(loginBanner).into(ivBanner)
-    }
-
+        CalculaFlexTracker.trackEvent(this, bundle)
+    }//end private fun sendDataToAnalytics
 
 }//end class FormActivity

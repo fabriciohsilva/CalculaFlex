@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
 
+    private lateinit var userId: String
     private lateinit var mAuth: FirebaseAuth
     private val newUserRequestCode = 1
 
@@ -38,6 +39,8 @@ class LoginActivity : BaseActivity() {
             )//end mAuth.signInWithEmailAndPassword
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    userId = mAuth.currentUser!!.uid
+                    sendLoginDataToAnalytics()
                     goToHome()
                 } else {
                     Toast.makeText(this@LoginActivity, it.exception?.message, Toast.LENGTH_SHORT).show()
@@ -75,6 +78,14 @@ class LoginActivity : BaseActivity() {
     }//end override fun onActivityResult
 
 
+    private fun sendLoginDataToAnalytics() {
+        val bundle = Bundle()
+        bundle.putString("USER_ID", userId)
+
+        CalculaFlexTracker.trackEvent(this, "EVENT_LOGIN", bundle)
+    }//end private fun sendDataToAnalytics
+
+
     private fun showAlertMinVersion() {
         AlertDialog.Builder(this)
             .setTitle("Ops")
@@ -99,7 +110,7 @@ class LoginActivity : BaseActivity() {
             }
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()
-    }
+    }//end private fun showAlertMinVersion
 
 
 }//end class LoginActivity

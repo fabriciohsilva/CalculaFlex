@@ -148,21 +148,19 @@ class FormActivity : BaseActivity() {
 
     private fun sendDataToAnalytics() {
         val bundle = Bundle()
-        bundle.putString("EVENT_CALCULATION", "CALCULATION")
-        bundle.putDouble("GAS_PRICE", etGasPrice.text.toString().toDouble());
-        bundle.putDouble("ETHANOL_PRICE", etEthanolPrice.text.toString().toDouble());
-        bundle.putDouble("GAS_AVERAGE", etGasAverage.text.toString().toDouble());
-        bundle.putDouble("ETHANOL_AVERAGE", etEthanolAverage.text.toString().toDouble());
+        bundle.putDouble("GAS_PRICE", etGasPrice.text.toString().toDouble())
+        bundle.putDouble("ETHANOL_PRICE", etEthanolPrice.text.toString().toDouble())
+        bundle.putDouble("GAS_AVERAGE", etGasAverage.text.toString().toDouble())
+        bundle.putDouble("ETHANOL_AVERAGE", etEthanolAverage.text.toString().toDouble())
 
-        CalculaFlexTracker.trackEvent(this, bundle)
+        CalculaFlexTracker.trackEvent(this, "EVENT_CALCULATION", bundle)
     }//end private fun sendDataToAnalytics
 
     private fun sendClearDataToAnalytics() {
         val bundle = Bundle()
-        bundle.putString("EVENT_CLEAR_DATA", "CLEAR_DATA")
         bundle.putString("USER_ID", userId)
 
-        CalculaFlexTracker.trackEvent(this, bundle)
+        CalculaFlexTracker.trackEvent(this, "EVENT_CLEAR_DATA", bundle)
     }//end private fun sendDataToAnalytics
 
 }//end class FormActivity
